@@ -3,6 +3,7 @@ package com.routebarber.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,7 +40,7 @@ fun ProfessionalDashboardScreen(navController: NavController) {
 
                 // Botón Iniciar Ruta
                 Button(
-                    onClick = { /* TODO: Iniciar navegación GPS */ },
+                    onClick = { navController.navigate("tracking_screen") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(54.dp),
@@ -60,8 +61,19 @@ fun ProfessionalDashboardScreen(navController: NavController) {
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            Text("VIERNES, 6 SEPTIEMBRE", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp, fontWeight = FontWeight.Bold)
-            Text("Hola, Mateo", color = MaterialTheme.colorScheme.onSurface, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Text("VIERNES, 6 SEPTIEMBRE", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    Text("Hola, Mateo", color = MaterialTheme.colorScheme.onSurface, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                }
+                TextButton(onClick = { navController.navigate("login_screen") }) {
+                    Text("Salir", color = MaterialTheme.colorScheme.error)
+                }
+            }
 
             Spacer(modifier = Modifier.height(24.dp))
 

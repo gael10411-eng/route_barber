@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.routebarber.ui.components.common.BotonesAccionTracking
+import com.routebarber.ui.components.common.BotonRegresar
 import com.routebarber.ui.components.common.CardEstadoEnVivo
 import com.routebarber.ui.theme.RouteBarberTheme
 
@@ -26,10 +27,20 @@ fun ClientLiveTrackingScreen(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFE0E0E0)),
+                .background(Color(0xFF1E1E1E)),
             contentAlignment = Alignment.Center
         ) {
             Text("Mapa de Seguimiento GPS", color = Color.Gray)
+        }
+
+        // Botón Regresar superior
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(16.dp)
+                .padding(top = 24.dp)
+        ) {
+            BotonRegresar(onClick = { navController.popBackStack() })
         }
 
         // Tarjeta Superior: Estado del Trayecto
@@ -37,8 +48,8 @@ fun ClientLiveTrackingScreen(navController: NavController) {
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .fillMaxWidth()
-                .padding(16.dp)
-                .padding(top = 24.dp)
+                .padding(horizontal = 16.dp)
+                .padding(top = 80.dp)
         ) {
             CardEstadoEnVivo(
                 estadoBadge = "EN VIVO",

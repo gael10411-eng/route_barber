@@ -3,6 +3,7 @@ package com.routebarber.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,6 +16,7 @@ import com.routebarber.ui.components.citas.CardSeleccionServicioCheckbox
 import com.routebarber.ui.components.citas.InputNotasBarbero
 import com.routebarber.ui.components.citas.SelectorHorarios
 import com.routebarber.ui.components.common.BotonConfirmarConTotal
+import com.routebarber.ui.components.common.BotonRegresar
 import com.routebarber.ui.theme.RouteBarberTheme
 
 @Composable
@@ -36,7 +38,9 @@ fun ServiceBookingScreen(navController: NavController) {
                 BotonConfirmarConTotal(
                     textoBoton = "Confirmar Cita",
                     totalTexto = "Total $180",
-                    onClick = { /* TODO: Confirmar Cita */ }
+                    onClick = {
+                        navController.navigate("tracking_screen")
+                    }
                 )
             }
         }
@@ -47,12 +51,19 @@ fun ServiceBookingScreen(navController: NavController) {
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            Text(
-                text = "Reserva tu cita",
-                color = MaterialTheme.colorScheme.onSurface,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                BotonRegresar(onClick = { navController.popBackStack() })
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = "Reserva tu cita",
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
