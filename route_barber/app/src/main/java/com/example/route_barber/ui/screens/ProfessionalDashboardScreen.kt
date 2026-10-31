@@ -1,18 +1,18 @@
 package com.routebarber.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.routebarber.ui.components.citas.CardProximaCitaProfesional
+import com.routebarber.ui.components.common.CardEstadisticas
+import com.routebarber.ui.components.common.SelectorDisponibilidad
 import com.routebarber.ui.theme.RouteBarberTheme
 
 @Composable
@@ -27,34 +27,13 @@ fun ProfessionalDashboardScreen(navController: NavController) {
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                // Selector de disponibilidad
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Button(
-                        onClick = { isDisponible = true },
-                        modifier = Modifier.weight(1f).height(48.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = if (isDisponible) MaterialTheme.colorScheme.surface else Color.Transparent,
-                            contentColor = if (isDisponible) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
-                        ),
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Text("Disponible", fontWeight = FontWeight.Bold)
-                    }
-                    Button(
-                        onClick = { isDisponible = false },
-                        modifier = Modifier.weight(1f).height(48.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = if (!isDisponible) MaterialTheme.colorScheme.surface else Color.Transparent,
-                            contentColor = if (!isDisponible) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
-                        ),
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Text("No disponible", fontWeight = FontWeight.Bold)
-                    }
-                }
+                // Selector de disponibilidad modularizado
+                SelectorDisponibilidad(
+                    estadoActual = isDisponible,
+                    textoVerdadero = "Disponible",
+                    textoFalso = "No disponible",
+                    onToggle = { isDisponible = it }
+                )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -68,7 +47,7 @@ fun ProfessionalDashboardScreen(navController: NavController) {
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
-                    shape = RoundedCornerShape(12.dp)
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp)
                 ) {
                     Text("Iniciar Ruta", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 }
@@ -86,62 +65,21 @@ fun ProfessionalDashboardScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Estadísticas
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Card(
-                    modifier = Modifier.weight(1f),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                    shape = RoundedCornerShape(16.dp)
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text("4", color = MaterialTheme.colorScheme.onSurface, fontSize = 24.sp, fontWeight = FontWeight.Black)
-                        Text("citas hoy", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 14.sp)
-                    }
-                }
-                Spacer(modifier = Modifier.width(16.dp))
-                Card(
-                    modifier = Modifier.weight(1f),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                    shape = RoundedCornerShape(16.dp)
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text("$850", color = MaterialTheme.colorScheme.primary, fontSize = 24.sp, fontWeight = FontWeight.Black)
-                        Text("ganancia", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 14.sp)
-                    }
-                }
-            }
+            // Estadísticas modularizadas
+            CardEstadisticas(citasHoy = "4", ganancias = "$850")
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Próxima Cita
+            // Próxima Cita modularizada
             Text("Próxima cita", color = MaterialTheme.colorScheme.onSurface, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
             Spacer(modifier = Modifier.height(12.dp))
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                shape = RoundedCornerShape(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-            ) {
-                Column(modifier = Modifier.padding(20.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text("4:00 PM", color = MaterialTheme.colorScheme.onSurface, fontSize = 24.sp, fontWeight = FontWeight.Black)
-                        Text("EN 35 MIN", color = MaterialTheme.colorScheme.primary, fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                    }
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    Text("Diego Hernández", color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                    Text("Corte clásico · $180", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 14.sp)
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    Text("📍 Av. Reforma 214, Col. Centro", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 14.sp)
-                }
-            }
+            CardProximaCitaProfesional(
+                hora = "4:00 PM",
+                tiempoRestante = "EN 35 MIN",
+                nombreCliente = "Diego Hernández",
+                detalleServicio = "Corte clásico · $180",
+                direccion = "Av. Reforma 214, Col. Centro"
+            )
         }
     }
 }
